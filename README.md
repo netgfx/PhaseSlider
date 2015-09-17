@@ -19,6 +19,8 @@ slider.createSlider({
     objects:[block1, block2, block3, block4, block5]
   });
   ```
+
+<img src="http://i221.photobucket.com/albums/dd22/djmid71/phaseslider_zpspiwz98ly.gif"/>  
   
 ><strong>View examples:</strong>
 <a href="http://www.netgfx.com/trunk/games/libs/phaseslider/examples/example1.html">Advanced example</a> | 
