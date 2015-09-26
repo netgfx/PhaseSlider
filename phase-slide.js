@@ -290,7 +290,10 @@ phaseSlider = function (game) {
             var bgRect;
 
             //////// OBJECTS GROUP
+            ///
+            _this.sliderBGGroup = _this.game.add.group();
             _this.sliderMainGroup = _this.game.add.group();
+            _this.sliderBGGroup.width = _this.options._width;
             _this.sliderMainGroup.width = _this.options._width;
             if (_this.options._mode === "horizontal") {
                 _this.sliderMainGroup.width = _this.options._width * _this.options._objects.length;
@@ -310,6 +313,10 @@ phaseSlider = function (game) {
             _this.sliderMainGroup.height = _this.options._height;
             _this.sliderMainGroup.x = _this.options._x;
             _this.sliderMainGroup.y = _this.options._y;
+            //
+            _this.sliderBGGroup.height =  _this.options._height;
+            _this.sliderBGGroup.x = _this.options._x;
+            _this.sliderBGGroup.y = _this.options._y;
 
             /// DRAG for horizontal
             /*var draggableSprite = _this.game.add.sprite(_this.options._x, _this.options._y);
@@ -352,7 +359,7 @@ phaseSlider = function (game) {
                 bgRect.drawRect(0, 0, _this.options._width, _this.options._height);
                 _this.sliderMainGroup.add(bgRect);
             } else {
-                _this.sliderMainGroup.add(_this.options.customSliderBG);
+                _this.sliderBGGroup.add(_this.options.customSliderBG);
             }
             // add controls
             if (_this.options._showHandles === true) {
@@ -464,10 +471,12 @@ phaseSlider = function (game) {
         hideSlider: function() {
             _this.sliderMainGroup.visible = false;
             _this.sliderControlsGroup.visible = false;
+            _this.sliderBGGroup.visible = false;
         },
         showSlider: function() {
             _this.sliderMainGroup.visible = true;
             _this.sliderControlsGroup.visible = true;
+            _this.sliderBGGroup.visible = true;
         }
     };
 };
