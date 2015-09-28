@@ -501,7 +501,7 @@ phaseSlider = function (game) {
             _this.sliderControlsGroup.visible = false;
             _this.sliderBGGroup.visible = false;
             if(_this._modal) {
-                _this.modal.visible = false;
+                _this._modal.visible = false;
             }
         },
         showSlider: function() {
