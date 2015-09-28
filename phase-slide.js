@@ -509,7 +509,7 @@ phaseSlider = function (game) {
             _this.sliderControlsGroup.visible = true;
             _this.sliderBGGroup.visible = true;
             if(_this._modal) {
-                _this.modal.visible = true;
+                _this._modal.visible = true;
             }
         }
     };
