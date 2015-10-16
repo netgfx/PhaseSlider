@@ -49,6 +49,9 @@ slider.createSlider({
 	<li><strong>onPrevCallback</strong> A callback function to be called when the slider navigates backwards (default false)</li>
 	<li><strong>autoAnimate</strong> If we want the slider to aumatically rotate the slider (default false)</li>
 	<li><strong>animationDelay</strong> The delay between slide change when autoAnimate is set to true (default 2s)</li>
+	<li><strong>modal</strong> Add a black modal behind the slider (default false)</li>
+	<li><strong>modalAlpha</strong> The amount of alpha (opacity) for the slider modal (default 0.7)</li>
+	<li><strong>staticElements</strong> The static elements that need to be added but not move (default [])</li>
 </ul>
 
 <strong>API Functions</strong>
