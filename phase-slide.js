@@ -279,7 +279,7 @@ phaseSlider = function (game) {
                 sliderBGAlpha: options.sliderBGAlpha || 1,
                 _customHandleNext: options.customHandleNext || "",
                 _customHandlePrev: options.customHandlePrev || "",
-                _showHandles: options.showHandles || true,
+                _showHandles: options.showHandles == undefined ? true : options.showHandles,
                 _onNextCallback: options.onNextCallback || false,
                 _onPrevCallback: options.onPrevCallback || false,
                 _addModal: options.modal || false,
@@ -431,6 +431,9 @@ phaseSlider = function (game) {
                     chevronLeft.alpha = 0;
                 }
             }
+            else {
+
+            }
 
 
             // ADDING THE BLOCKS
@@ -495,6 +498,13 @@ phaseSlider = function (game) {
         },
         getCurrentIndex: function () {
             return _this.slideIndex;
+        },
+        refreshSlider: function() {
+
+        },
+        removeItemAt: function(index) {
+            _this.sliderMainGroup.removeChildAt(index);
+            _this.options._objects = _this.sliderMainGroup.children;
         },
         hideSlider: function() {
             _this.sliderMainGroup.visible = false;

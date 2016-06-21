@@ -53,7 +53,6 @@ phaseSlider = function (game) {
             _this.tweenObj.onComplete.add(function () {
                 this.locked = false;
                 this.slideIndex += 1;
-
                 if (_this.options.autoAnimate === false && this.slideIndex >= _this.options._objects.length - 1) {
                     if (_this.options._showHandles === true) {
                         this.sliderControlsGroup.children[0].alpha = 0;
@@ -280,17 +279,35 @@ phaseSlider = function (game) {
                 sliderBGAlpha: options.sliderBGAlpha || 1,
                 _customHandleNext: options.customHandleNext || "",
                 _customHandlePrev: options.customHandlePrev || "",
-                _showHandles: options.showHandles || true,
+                _showHandles: options.showHandles == undefined ? true : options.showHandles,
                 _onNextCallback: options.onNextCallback || false,
-                _onPrevCallback: options.onPrevCallback || false
+                _onPrevCallback: options.onPrevCallback || false,
+                _addModal: options.modal || false,
+                _modalAlpha: options.modalAlpha || 0.7,
+                _staticElements: options.staticElements || []
             };
 
             //////////////////////////////////////////////////////////////////////////////////////////////
 
             var bgRect;
+            _this._modal = {};
+            if(_this.options._addModal ===  true) {
+                _this._modal = game.add.graphics(game.width, game.height);
+                _this._modal.beginFill(0x000000, _this.options._modalAlpha);
+                _this._modal.x = 0;
+                _this._modal.y = 0;
+                _this._modal.inputEnabled = true;
+                _this._modal.drawRect(0, 0, _this.game.width, _this.game.height);
+            }
+            else {
+                _this._modal = false;
+            }
 
             //////// OBJECTS GROUP
+            ///
+            _this.sliderBGGroup = _this.game.add.group();
             _this.sliderMainGroup = _this.game.add.group();
+            _this.sliderBGGroup.width = _this.options._width;
             _this.sliderMainGroup.width = _this.options._width;
             if (_this.options._mode === "horizontal") {
                 _this.sliderMainGroup.width = _this.options._width * _this.options._objects.length;
@@ -310,6 +327,10 @@ phaseSlider = function (game) {
             _this.sliderMainGroup.height = _this.options._height;
             _this.sliderMainGroup.x = _this.options._x;
             _this.sliderMainGroup.y = _this.options._y;
+            //
+            _this.sliderBGGroup.height =  _this.options._height;
+            _this.sliderBGGroup.x = _this.options._x;
+            _this.sliderBGGroup.y = _this.options._y;
 
             /// DRAG for horizontal
             /*var draggableSprite = _this.game.add.sprite(_this.options._x, _this.options._y);
@@ -352,7 +373,7 @@ phaseSlider = function (game) {
                 bgRect.drawRect(0, 0, _this.options._width, _this.options._height);
                 _this.sliderMainGroup.add(bgRect);
             } else {
-                _this.sliderMainGroup.add(_this.options.customSliderBG);
+                _this.sliderBGGroup.add(_this.options.customSliderBG);
             }
             // add controls
             if (_this.options._showHandles === true) {
@@ -410,25 +431,42 @@ phaseSlider = function (game) {
                     chevronLeft.alpha = 0;
                 }
             }
+            else {
+
+            }
 
 
             // ADDING THE BLOCKS
             if (_this.options._objects.length > 0) {
-                for (var i = 0; i < _this.options._objects.length; i++) {
+                var objArr = _this.options._objects.slice(0);
+                var length = Number(objArr.length);
+                for (var i = 0; i < length; i++) {
                     var x;
                     var y;
                     // mode
                     if (_this.options._mode === "horizontal") {
-                        _this.options._objects[i].x = (_this.options._width * i);
+                        objArr[i].x = (_this.options._width * i);
                     } else if (_this.options._mode === "vertical-from-top") {
-                        _this.options._objects[i].y = (_this.options._height * i) * -1;
+                        objArr[i].y = (_this.options._height * i) * -1;
 
                     } else if (_this.options._mode === "vertical-from-bottom") {
-                        _this.options._objects[i].y = (_this.options._height * i);
+                        objArr[i].y = (_this.options._height * i);
                     }
-                    _this.sliderMainGroup.add(_this.options._objects[i]);
+                    _this.sliderMainGroup.add(objArr[i]);
+                }
+                _this.options._objects = _this.sliderMainGroup.children;
+                //window.console.log(_this.options._objects.length, _this.options._objects,  _this.sliderMainGroup.children.length);
+            }
+
+
+            // ADDING STATIC ELEMENTS
+            if(_this.options._staticElements.length > 0) {
+                for (var i = 0;i<_this.options._staticElements.length;i++ ) {
+                    game.world.bringToTop(_this.options._staticElements[i]);
+                    _this.sliderBGGroup.add(_this.options._staticElements[i]);
                 }
             }
+
 
             // move the chevrons to top
             if (_this.options._showHandles === true) {
@@ -461,13 +499,28 @@ phaseSlider = function (game) {
         getCurrentIndex: function () {
             return _this.slideIndex;
         },
+        refreshSlider: function() {
+
+        },
+        removeItemAt: function(index) {
+            _this.sliderMainGroup.removeChildAt(index);
+            _this.options._objects = _this.sliderMainGroup.children;
+        },
         hideSlider: function() {
             _this.sliderMainGroup.visible = false;
             _this.sliderControlsGroup.visible = false;
+            _this.sliderBGGroup.visible = false;
+            if(_this._modal) {
+                _this._modal.visible = false;
+            }
         },
         showSlider: function() {
             _this.sliderMainGroup.visible = true;
             _this.sliderControlsGroup.visible = true;
+            _this.sliderBGGroup.visible = true;
+            if(_this._modal) {
+                _this._modal.visible = true;
+            }
         }
     };
 };
