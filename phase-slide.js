@@ -9,7 +9,7 @@
 var phaseSlider = phaseSlider || {};
 
 
-phaseSlider = function (game) {
+phaseSlider = function(game) {
 
     var _this = this;
 
@@ -27,8 +27,12 @@ phaseSlider = function (game) {
     game.load.image("slider_chevron_left", chevron_left);
     game.load.image("slider_chevron_right", chevron_right);
 
-    _this.goToNext = function () {
-        _this.locked = true;
+    _this.goToNext = function() {
+
+        if (_this.locked === true) {
+            return false;
+        }
+
         if (_this.options._mode === "horizontal") {
             var finalX = _this.sliderMainGroup.x + (_this.options._width * -1);
 
@@ -46,11 +50,12 @@ phaseSlider = function (game) {
                     return true;
                 }
             }
+            _this.locked = true;
 
             _this.tweenObj = game.add.tween(_this.sliderMainGroup).to({
                 x: finalX
             }, _this.options.animationDuration, _this.options.animationEasing, true, 0, 0, false);
-            _this.tweenObj.onComplete.add(function () {
+            _this.tweenObj.onComplete.add(function() {
                 this.locked = false;
                 this.slideIndex += 1;
                 if (_this.options.autoAnimate === false && this.slideIndex >= _this.options._objects.length - 1) {
@@ -88,10 +93,12 @@ phaseSlider = function (game) {
                 }
             }
 
+            _this.locked = true;
+
             _this.tweenObj = game.add.tween(_this.sliderMainGroup).to({
                 y: finalY
             }, _this.options.animationDuration, _this.options.animationEasing, true, 0, 0, false);
-            _this.tweenObj.onComplete.add(function () {
+            _this.tweenObj.onComplete.add(function() {
                 this.locked = false;
                 this.slideIndex += 1;
 
@@ -108,8 +115,12 @@ phaseSlider = function (game) {
             }, _this);
         }
     };
-    _this.goToPrev = function () {
-        _this.locked = true;
+    _this.goToPrev = function() {
+
+        if (_this.locked === true) {
+            return false;
+        }
+
         if (_this.options._mode === "horizontal") {
             var finalX = _this.sliderMainGroup.x + (_this.options._width);
 
@@ -118,10 +129,11 @@ phaseSlider = function (game) {
                 return false;
             }
 
+            _this.locked = true;
             _this.tweenObj = game.add.tween(_this.sliderMainGroup).to({
                 x: finalX
             }, _this.options.animationDuration, _this.options.animationEasing, true, 0, 0, false);
-            _this.tweenObj.onComplete.add(function () {
+            _this.tweenObj.onComplete.add(function() {
                 this.locked = false;
                 this.slideIndex -= 1;
 
@@ -153,11 +165,11 @@ phaseSlider = function (game) {
                 _this.stopSlider();
                 return false;
             }
-
+            _this.locked = true;
             _this.tweenObj = game.add.tween(_this.sliderMainGroup).to({
                 y: finalY
             }, _this.options.animationDuration, _this.options.animationEasing, true, 0, 0, false);
-            _this.tweenObj.onComplete.add(function () {
+            _this.tweenObj.onComplete.add(function() {
                 this.locked = false;
                 this.slideIndex -= 1;
 
@@ -179,13 +191,13 @@ phaseSlider = function (game) {
         }
     };
 
-    _this.startSlider = function () {
+    _this.startSlider = function() {
         var _timer = game.time.create(false);
         _timer.start();
         _timer.loop(Phaser.Timer.SECOND * _this.options.animationDelay, _this.goToNext, _this);
         _this.slider_timer = _timer;
     };
-    _this.stopSlider = function () {
+    _this.stopSlider = function() {
         if (_this.slider_timer !== null) {
             _this.slider_timer.stop(true);
             _this.slider_timer = null;
@@ -194,7 +206,7 @@ phaseSlider = function (game) {
         }
     };
 
-    _this.moveToSlide = function (index, animate) {
+    _this.moveToSlide = function(index, animate) {
         var finalX;
         if (index >= _this.options._objects.length) {
             return false;
@@ -217,15 +229,15 @@ phaseSlider = function (game) {
     };
     /////////////////////////////////////////////////////////////////////////////////////////
     ///
-    _this.onDragStart = function (sprite, pointer, dragX, dragY) {
+    _this.onDragStart = function(sprite, pointer, dragX, dragY) {
         _this.dragInit = pointer.x;
         _this.lastDrag = pointer.x;
     };
 
-    _this.onDragStop = function (e) {
+    _this.onDragStop = function(e) {
 
     };
-    _this.dragUpdate = function (sprite, pointer, dragX, dragY) {
+    _this.dragUpdate = function(sprite, pointer, dragX, dragY) {
 
         var finalX = dragX; // - _this.options._x;
         // going left
@@ -257,7 +269,7 @@ phaseSlider = function (game) {
     };
 
     return {
-        createSlider: function (options) {
+        createSlider: function(options) {
             // initialize index
             _this.slideIndex = 0;
 
@@ -291,15 +303,14 @@ phaseSlider = function (game) {
 
             var bgRect;
             _this._modal = {};
-            if(_this.options._addModal ===  true) {
+            if (_this.options._addModal === true) {
                 _this._modal = game.add.graphics(game.width, game.height);
                 _this._modal.beginFill(0x000000, _this.options._modalAlpha);
                 _this._modal.x = 0;
                 _this._modal.y = 0;
                 _this._modal.inputEnabled = true;
                 _this._modal.drawRect(0, 0, _this.game.width, _this.game.height);
-            }
-            else {
+            } else {
                 _this._modal = false;
             }
 
@@ -328,7 +339,7 @@ phaseSlider = function (game) {
             _this.sliderMainGroup.x = _this.options._x;
             _this.sliderMainGroup.y = _this.options._y;
             //
-            _this.sliderBGGroup.height =  _this.options._height;
+            _this.sliderBGGroup.height = _this.options._height;
             _this.sliderBGGroup.x = _this.options._x;
             _this.sliderBGGroup.y = _this.options._y;
 
@@ -390,7 +401,7 @@ phaseSlider = function (game) {
                 chevronRight.x = _this.options._width - (chevronRight.width + 10); //_this.options._x+_this.options._width - (chevronRight.width+10);
                 chevronRight.y = (_this.options._height / 2) - chevronRight.height / 2;
                 chevronRight.inputEnabled = true;
-                chevronRight.events.onInputDown.add(function (e, pointer) {
+                chevronRight.events.onInputDown.add(function(e, pointer) {
                     if (_this.options._onNextCallback) {
                         _this.options._onNextCallback();
                     }
@@ -412,7 +423,7 @@ phaseSlider = function (game) {
                 chevronLeft.x = 10;
                 chevronLeft.y = (_this.options._height / 2) - chevronLeft.height / 2;
                 chevronLeft.inputEnabled = true;
-                chevronLeft.events.onInputDown.add(function (e, pointer) {
+                chevronLeft.events.onInputDown.add(function(e, pointer) {
                     if (_this.options._onPrevCallback) {
                         _this.options._onPrevCallback();
                     }
@@ -430,8 +441,7 @@ phaseSlider = function (game) {
                 if (_this.options.infiniteLoop === false) {
                     chevronLeft.alpha = 0;
                 }
-            }
-            else {
+            } else {
 
             }
 
@@ -460,8 +470,8 @@ phaseSlider = function (game) {
 
 
             // ADDING STATIC ELEMENTS
-            if(_this.options._staticElements.length > 0) {
-                for (var i = 0;i<_this.options._staticElements.length;i++ ) {
+            if (_this.options._staticElements.length > 0) {
+                for (var i = 0; i < _this.options._staticElements.length; i++) {
                     game.world.bringToTop(_this.options._staticElements[i]);
                     _this.sliderBGGroup.add(_this.options._staticElements[i]);
                 }
@@ -480,23 +490,23 @@ phaseSlider = function (game) {
             }
 
         },
-        startSlider: function () {
+        startSlider: function() {
             _this.startSlider();
         },
-        stopSlider: function () {
+        stopSlider: function() {
             _this.startSlider();
         },
-        moveToSlide: function (index, animate) {
+        moveToSlide: function(index, animate) {
 
             _this.moveToSlide(index, animate);
         },
-        goToNext: function () {
+        goToNext: function() {
             _this.goToNext();
         },
-        goToPrev: function () {
+        goToPrev: function() {
             _this.goToPrev();
         },
-        getCurrentIndex: function () {
+        getCurrentIndex: function() {
             return _this.slideIndex;
         },
         refreshSlider: function() {
@@ -510,7 +520,7 @@ phaseSlider = function (game) {
             _this.sliderMainGroup.visible = false;
             _this.sliderControlsGroup.visible = false;
             _this.sliderBGGroup.visible = false;
-            if(_this._modal) {
+            if (_this._modal) {
                 _this._modal.visible = false;
             }
         },
@@ -518,7 +528,7 @@ phaseSlider = function (game) {
             _this.sliderMainGroup.visible = true;
             _this.sliderControlsGroup.visible = true;
             _this.sliderBGGroup.visible = true;
-            if(_this._modal) {
+            if (_this._modal) {
                 _this._modal.visible = true;
             }
         }
