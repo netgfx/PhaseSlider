@@ -292,8 +292,10 @@ phaseSlider = function(game) {
                 _customHandleNext: options.customHandleNext || "",
                 _customHandlePrev: options.customHandlePrev || "",
                 _showHandles: options.showHandles == undefined ? true : options.showHandles,
-                _onNextCallback: options.onNextCallback || false,
-                _onPrevCallback: options.onPrevCallback || false,
+                _onPreNextCallback: options.onPreNextCallback || false,
+                _onPrePrevCallback: options.onPrePrevCallback || false,
+				_onAfterNextCallback: options.onAfterNextCallback || false,
+				_onAfterPrevCallback: options.onAfterPreCallback || false,
                 _addModal: options.modal || false,
                 _modalAlpha: options.modalAlpha || 0.7,
                 _staticElements: options.staticElements || []
@@ -402,13 +404,17 @@ phaseSlider = function(game) {
                 chevronRight.y = (_this.options._height / 2) - chevronRight.height / 2;
                 chevronRight.inputEnabled = true;
                 chevronRight.events.onInputDown.add(function(e, pointer) {
-                    if (_this.options._onNextCallback) {
-                        _this.options._onNextCallback();
+                    if (_this.options._onPreNextCallback) {
+                        _this.options._onPreNextCallback();
                     }
 
                     if (_this.tweenObj.isRunning !== true) {
                         _this.stopSlider();
                         _this.goToNext();
+                    }
+					
+					if (_this.options._onAfterNextCallback) {
+                        _this.options._onAfterNextCallback();
                     }
 
                 }, _this);
@@ -424,13 +430,17 @@ phaseSlider = function(game) {
                 chevronLeft.y = (_this.options._height / 2) - chevronLeft.height / 2;
                 chevronLeft.inputEnabled = true;
                 chevronLeft.events.onInputDown.add(function(e, pointer) {
-                    if (_this.options._onPrevCallback) {
-                        _this.options._onPrevCallback();
+                    if (_this.options._onPrePrevCallback) {
+                        _this.options._onPrePrevCallback();
                     }
 
                     if (_this.tweenObj.isRunning !== true) {
                         _this.stopSlider();
                         _this.goToPrev();
+                    }
+					
+					if (_this.options._onAfterPrevCallback) {
+                        _this.options._onAfterPrevCallback();
                     }
 
                 }, _this);

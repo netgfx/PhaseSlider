@@ -52,6 +52,10 @@ slider.createSlider({
 	<li><strong>modal</strong> Add a black modal behind the slider (default false)</li>
 	<li><strong>modalAlpha</strong> The amount of alpha (opacity) for the slider modal (default 0.7)</li>
 	<li><strong>staticElements</strong> The static elements that need to be added but not move (default [])</li>
+	<li><strong>onPrePrevCallback</strong> The function to call `before` the slider moves to the `previous` slide (default false)</li>
+	<li><strong>onPreNextCallback</strong> The function to call `before` the slider moves to the `next` slide (default false)</li>
+	<li><strong>onAfterPrevCallback</strong> The function to call `after` the slider moves to the `previous` slide (default false)</li>
+	<li><strong>onAfterNextCallback</strong> The function to call `after` the slider moves to the `next` slide (default false)</li>
 </ul>
 
 <strong>API Functions</strong>
