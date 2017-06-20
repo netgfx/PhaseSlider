@@ -2,9 +2,11 @@
 A slider UI component for Phaser.io Javascript library
 
 <h3>Initialize the slider in your preload function</h3>
+
 ```
 slider = new phaseSlider(game); //make sure to have slider publicly available
 ```
+
 And then simply construct your slider in the main function of your game or anywhere else
 
 ```
