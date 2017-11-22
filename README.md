@@ -22,7 +22,7 @@ slider.createSlider({
   });
   ```
 
-<img src="https://netgfx.com/trunk/randomPICS/phaseslider_zpspiwz98ly.gif"/>  
+<img src="http://netgfx.com/trunk/randomPICS/phaseslider_zpspiwz98ly.gif"/>  
   
 ><strong>View examples:</strong>
 <a href="http://www.netgfx.com/trunk/games/libs/phaseslider/examples/example1.html">Advanced example</a> | 
